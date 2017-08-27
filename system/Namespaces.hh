@@ -10,20 +10,12 @@ namespace Hackme {
     }
 
     function load(string $controller) {
-      if(\Hackme\existDefault()) {
-        require 'application/controllers/'.\Hackme\strProper(\Hackme\route::$default_controller).'.hh';
-
-        // if($getIndex) {
-        //   $tmp = new $controller();
-        //   if(method_exists($controller, 'index')) {
-        //     $tmp->index();
-        //   } else {
-        //     echo 'no index method';
-        //   }
-        // }
+      if(\Hackme\existController($controller)) {
+        require 'application/controllers/'.\Hackme\strProper($controller).'.hh';
 
       } else {
-        \Hackme\show404();
+        show404();
+        exit;
       }
     }
 
@@ -33,7 +25,7 @@ namespace Hackme {
         $tmp = new $toCall();
         $tmp->index();
       } else {
-        echo "Error: No index found";
+        show404();
       }
     }
 
@@ -49,15 +41,20 @@ namespace Hackme {
 
   function InitDefault() {
     //echo route::$default_controller;
+    if(existController(route::$default_controller)) {
+      \Hackme\Controller\load(\Hackme\route::$default_controller);
 
-    \Hackme\Controller\load(\Hackme\route::$default_controller);
+    } else {
+      show404();
+    }
 
   }
 
-  function existDefault():bool {
+  function existController(string $controller):bool {
 
-    if(file_exists(ROOTDIR.'/application/controllers/'.strProper(route::$default_controller).'.hh')) {
-      // echo 'File Exists';
+    if(file_exists(ROOTDIR.'/application/controllers/'.strProper($controller).'.hh')) {
+      // echo ROOTDIR.'/application/controllers/'.strProper($controller).'.hh<br>';
+      //  echo 'File Exists';
       return true;
     } else {
       // echo 'File Does not exists';
@@ -73,7 +70,7 @@ namespace Hackme {
   function strProper(string $string):string {
     $f = str_split($string, 1);
     // echo $f[0].'<br>';
-    $proper = str_replace(strtolower($f[0]), strtoupper($f[0]), route::$default_controller);
+    $proper = str_replace(strtolower($f[0]), strtoupper($f[0]), $string );
     return $proper;
   }
 
