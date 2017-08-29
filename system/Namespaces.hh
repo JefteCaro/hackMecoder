@@ -1,10 +1,11 @@
 <?hh
 
-
 namespace Hackme {
 
   namespace Controller {
 
+    include 'system/Controller.hh';
+    include 'system/Model.hh';
     function test() {
       echo 'Test from Controller';
     }
@@ -14,7 +15,7 @@ namespace Hackme {
         require 'application/controllers/'.\Hackme\strProper($controller).'.hh';
 
       } else {
-        show404();
+        \Hackme\show404();
         exit;
       }
     }
@@ -25,29 +26,26 @@ namespace Hackme {
         $tmp = new $toCall();
         $tmp->index();
       } else {
-        show404();
+        \Hackme\show404();
       }
     }
 
   }
 
-  namespace Loader {
-
-    function test() {
-      echo 'Test from Loader';
-    }
-  }
-
-
   function InitDefault() {
     //echo route::$default_controller;
-    if(existController(route::$default_controller)) {
+    if(\Hackme\existController(\Hackme\route::$default_controller)) {
       \Hackme\Controller\load(\Hackme\route::$default_controller);
-
+      $proper = \Hackme\route::$default_controller;
+      $def = new $proper();
+      if(method_exists($def, 'index')) {
+        $def->index();
+      } else {
+        \Hackme\show404();
+      }
     } else {
-      show404();
+      \Hackme\show404();
     }
-
   }
 
   function existController(string $controller):bool {

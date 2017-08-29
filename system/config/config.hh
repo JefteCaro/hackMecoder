@@ -1,4 +1,7 @@
 <?hh
+define('SYSTEM', 'system/');
+define('APPDIR', 'application');
+
 namespace Hackme {
 
     class db {

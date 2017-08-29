@@ -21,18 +21,21 @@
 // }
 
 
-class Welcome {
+class Welcome extends HM_Controller {
 
+  public $test_model;
   public function __construct() {
-    // parent::__construct();
-    //echo 'Welcome Controller';
-    // echo $_SERVER['HTTP_HOST'];
-    // echo $_SERVER['REQUEST_URI'];
-    // echo '<br>';
-    // echo $this->uri;
+    parent::__construct();
+    $this->test_model = $this->model('Test_model');
   }
   public function index() {
-    echo 'Index';
+    $data = Map {
+      'users' => $this->test_model->get_users()
+    };
+
+    $this->view('testview', $data);
+        //   var_dump($key). '<br><br><br>';
+    // }
   }
   public function test() {
     echo 'Test Function';
@@ -44,6 +47,10 @@ class Welcome {
     } else {
       echo 'testing function with value : '. $tmp;
     }
+  }
+
+  public function test_multi($tmp1 = '1', $tmp2 = '2') {
+    echo 'Test Multi Value';
   }
 }
 new Welcome();
