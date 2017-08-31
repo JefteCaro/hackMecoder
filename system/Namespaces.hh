@@ -11,6 +11,8 @@ namespace Hackme {
     }
 
     function load(string $controller) {
+
+      include APPDIR.'Contentvalues.hh';
       if(\Hackme\existController($controller)) {
         require 'application/controllers/'.\Hackme\strProper($controller).'.hh';
 
@@ -68,7 +70,9 @@ namespace Hackme {
   function strProper(string $string):string {
     $f = str_split($string, 1);
     // echo $f[0].'<br>';
-    $proper = str_replace(strtolower($f[0]), strtoupper($f[0]), $string );
+    $lower = strtolower($string);
+    // error_log(substr_replace($lower, strtoupper($f[0]), 0, 1));
+    $proper = substr_replace($lower, strtoupper($f[0]), 0, 1);
     return $proper;
   }
 

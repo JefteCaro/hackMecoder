@@ -9,8 +9,8 @@ class HM_Model {
   }
 
   private function load_database() {
-    include 'system/config/database.hh';
-    $this->db = new ConnectionInfo();
+    include SYSDIR.'Database.hh';
+    $this->db = new SQLHelper();
   }
 
 }
