@@ -83,7 +83,7 @@ class HM_Router {
 
 /**
 * This is the most important part in this file.
-* since we have declared our router as a class, we mas intitialize
+* since we have declared our router as a class, we must intitialize
 * the class in order to run the routing request.
 **/
 new HM_Router();
